@@ -25,12 +25,17 @@ Instalação automática via install.sh.
 
 Instalação (via Termux)
 
-pkg update && pkg upgrade -y
-pkg install git -y
-git clone https://github.com/jottap-termux/wolf
-cd wolf
-chmod +x install.sh
-bash install.sh
+•pkg update && pkg upgrade -y
+
+•pkg install git -y
+
+•git clone https://github.com/jottap-termux/wolf
+
+•cd wolf
+
+•chmod +x install.sh
+
+•bash install.sh
 
 Execução
 
@@ -100,3 +105,6 @@ Autor
 Criado por: Jottap_62
 
 Instagram: @jottap_62
+
+![17477353053098062051895840781719](https://github.com/user-attachments/assets/12feb846-3692-450b-b697-ddd9ec06eecb)
+
