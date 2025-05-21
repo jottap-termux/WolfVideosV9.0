@@ -1,96 +1,111 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 
-# Limpa a tela
-clear
+# Cores ANSI
+green="\033[1;32m"
+red="\033[1;31m"
+yellow="\033[1;33m"
+blue="\033[1;34m"
+cyan="\033[1;36m"
+reset="\033[0m"
 
-# Banner estiloso com cores
-echo -e "\033[1;36m"
-echo "  ____    __    ____  _______  __        ______   ______   .___  ___.  _______"
-echo "  \   \  /  \  /   / |   ____||  |      /      | /  __  \  |   \/   | |   ____|"
-echo "   \   \/    \/   /  |  |__   |  |     |  ,----'|  |  |  | |  \  /  | |  |__"  
-echo "    \            /   |   __|  |  |     |  |     |  |  |  | |  |\/|  | |   __|" 
-echo "     \    /\    /    |  |____ |  `----.|  `----.|  `--'  | |  |  |  | |  |____"
-echo "      \__/  \__/     |_______||_______| \______| \______/  |__|  |__| |_______|"
-echo -e "\033[1;31m"
-echo "  __      __   ______   __    __   ______   __  __   ______   ______"
-echo " |  |    |  | /  __  \ |  |  |  | |   ___| |  |/  | |   ___| |   ___|"
-echo " |  |    |  | |  |  | | |  |__|  | |  |___  |     | |  |___  |  |___" 
-echo " |  |    |  | |  |  | | |   __   | |   ___| |  |\  | |   ___| |   ___|"
-echo " |  `----|  | |  `--' | |  |  |  | |  |___  |  | \  | |  |___ |  |___"
-echo "  \______/__/  \______/ |__|  |__| |______| |__|  \__| |______| |______|"
-echo -e "\033[1;33m"
-echo "  _______   ______   .______       _______  __   __       _______."
-echo " /  _____| /  __  \  |   _  \     |   ____||  | |  |     /       |"
-echo "|  |  __  |  |  |  | |  |_)  |    |  |__   |  | |  |    |   (----\`"
-echo "|  | |_ | |  |  |  | |      /     |   __|  |  | |  |     \   \\"
-echo "|  |__| | |  \`--'  | |  |\  \----.|  |____ |  | |  | .----)   |"
-echo " \______|  \______/  | _| \`._____||_______||__| |__| |_______/"
+# Banner COMPLETO (comece com aspas duplas, termine só com aspas duplas na linha final)
+banner="
+                                                                 
+              ⢶                                   ⡾⡀             
+             ⢰⣄⢷⡀                               ⢀⡾⣡⠇             
+             ⢰⠙⣦⡙⢦⡀      ⡀⣄⡀ ⡴⠸⣄ ⣠⠎⢦ ⢀⣠⢀      ⢀⡴⢋⣴⠏⡆             
+             ⣾ ⠘⢯⣦⣉⡳⠦⣄⡾⠶⠄⠛⢄⠉⣙⠁⣆⣌⠶⢃⣰⠈⢛⠉⠠⠚⠢⠶⠿⣠⠤⠞⣋⢴⡿⠋ ⣷             
+             ⣿⢠ ⠈⢻⡻⣽⣶⣦⣄⠠⣄⠕⣤⣢⣞⣷⡜⣿⣶⣿⢧⣾⣷⣗⣤⠪⢀⠄⣠⣴⣶⣟⣟⡟⠁ ⢠⣿             
+            ⢠⡿⡸⡂  ⠓⠘⢦ ⠁⠁⠘⣦⢪⢿⣿⣿⠻⣿⣿⣿⠟⣿⣿⣿⡵⣴⠃⠘⠉⠐⡵⠋⠞  ⢀⢇⣻⡆            
+            ⢸⡇⣧⡀   ⠄⠘⣧   ⠸⣿⣿⣿⣿⣇⠘⣿⠃⣸⣿⣿⣿⣿⠇   ⣼⠃    ⠘⢼⡸⡇            
+            ⢸⠁⢿⡳     ⠘⣧⡘⣦⣷⣻⢿⡿⣿⣿⣧ ⣰⣿⣿⢿⡿⣿⣼⣴⣇⣼⠃    ⢀⠞⣿ ⡇            
+          ⢀⡀⢸⡀⡈⢷⠄  ⠄⣲⣶⣾⡿⠿⢝⠿⢷⡕⠸⡿⣿⢷⣿⣯⡏⢪⡾⠫⣻⠿⢿⣷⣶⣖⠢   ⡾⢃ ⡇⢀⡀          
+          ⠈⢯⡛⠁⠘    ⡴⣖⣚⣿⣧⣄⠠⡀ ⠹⣆⢳⠉ ⠉⡞⣠⠏ ⢀⠄⣠⣼⣿⣓⣒⠦    ⠂⡈⠛⡿⠁          
+          ⢀⡴⢋⣤⣤⡖⠋⠁ ⣠⣴⣟⢿⡿⣿⣿⣽⣦⣄⠈⠎⠣ ⠘⠱⠁⢠⣴⣯⣿⣿⢿⡿⣿⣦⣄ ⠈⠛⣶⣦⣄⡘⢦⡀          
+         ⠠⢟⡖⢀⣤⡤⠔⠂⠠⠼⢿⡡⠌⠁⠈⡀⠻⣝⣿⣿⣆⡆   ⢠⣴⣿⣿⢿⠟⢁⠁⠈ ⢉⡿⠷⠄⠐⠢⠤⣤⡀⢲⡛⠄         
+          ⡞⠐⡻⠉    ⣀⡬  ⡤⡀⠻⣦⡀⠙⣿⡿⠇   ⠸⢿⣿⠃⢁⣴⡟⢀⣤  ⢥⣄    ⠉⢝⠂⢻          
+         ⢰⢇⣼⣧⢾⣽⡂⢠⣾⠿⢿⣿⣧⣝⣿⣦⣄    ⠠⣴⣀⣦⡤    ⣀⣴⣟⣫⣴⣿⣿⠿⣷⣄⢀⢮⡷⢮⣧⡘⣇         
+        ⢀⣿⡚⠉⠐⣩⡯⠖⢀⣤⢆⡀ ⠉⠛⢻⡭  ⠲⢮⣽⣦⠸⣿⠏⣴⣏⡽⠖  ⢹⡟⠛⠋  ⡰⣤⡄⠰⢽⣍⠂⠉⢛⣿⡄        
+        ⠉⠉⣠ ⢚⡭⠂ ⢉⣾⡿⠉   ⢠⡶⢿⣷⣿⣦⠸⠿⠳⠉⠞⠿⠏⣴⣿⣾⡿⢶⣄   ⠨⢿⣷⡍ ⠐⢮⡓⠄⣄⠉⠉        
+          ⡏⡴⢋⣔⠄  ⡟ ⡴⣾  ⡏ ⢰⣿⢿⡇⠐⠊⠻⣿⠟⠉⠂⢹⣿⣿⡞ ⠸⡄ ⢳⢦ ⢻  ⠠⡢⡙⢦⣹          
+         ⢀⠟⡀⢸⣿⠊  ⠃ ⠁⡏⡆  ⠐⢌⠻⣟⣧⡀     ⢀⣼⣳⡟⡡⠂  ⢰⢿⠈⠂⠈  ⠑⣽⡇⢀⠻⡀         
+           ⡇⢸⡧  ⡀   ⠁⢟⣆  ⠠⡓⢽⡿⡗⠆   ⠠⢾⢟⡿⢊⠅ ⢠⣸⡻⠈   ⢀  ⢾⡇⢸           
+           ⡇⠈⣠⡎⣾⠄⠰⡁⠄  ⠈⢻⡀  ⠁         ⠈⡀ ⢀⡾⠁   ⣀⠆ ⣳⢰⣄⠁⢸           
+           ⢹⣰⠋⣧⠟⢀⢀⣿⡔⢰⠇  ⠁  ⣿ ⡇⢰⢠ ⡆⡆⢸ ⣷⠁ ⠈  ⠐⡆⢢⣻⡀⡀⠻⣸⠙⣆⡞           
+           ⠘⠇ ⠸⡄⡾⣆⠻⡇⠘ ⢀   ⢀⠹         ⠏    ⡀ ⠃⢸⠟⣰⣿⢀⠏ ⠸⠃           
+               ⢻⠁⣿ ⣴ ⢸⢺   ⠘ ⢸       ⡇ ⡇   ⢳⡄ ⣶ ⢹⠈⡟               
+                 ⢸⡜⠹⠳⣌⣿⡄  ⢇ ⢻⢠     ⡄⡯ ⢰  ⢠⣿⢡⠞⠏⢧⡏                 
+                  ⠁  ⠈⠫⢳⣔⢠  ⡌⠈⠋⠃⠂⠘⠉⠁⢁  ⡄⣤⡞⠝⠁  ⠈                  
+                        ⠙⢶⡆⣦⠈⠓⠒⠒⠒⠒⠒⠚⠁⣰⢠⣵⠋                        
+                          ⠙⠘⢧⡈⢾⣴⣾⣦⠶⢃⡼⠃⠋                          
+                             ⠙⢦⡈⠛⢃⡴⠋                             
+                               ⠙⢶⠋                               
+                                                                 
+                                                                              
+                ⣰⣦⡀       ⢠⡄  ⡰⣶⣲⣤  ⢰⡶ ⣠⣴⣶⣶⣴⣒
+                ⢻⣿⡇  ⣤⣷   ⣼⡇ ⡟⡟⠉⠉⢻⣆ ⢸⡇ ⣿⣿⡇   
+                ⢨⣿⣇  ⢻⣿  ⢀⣿⠁⢸⡯   ⢸⣿ ⣺⡇ ⠸⣿⣿⡿⠿⠛
+                 ⢿⣿⡀⢀⣾⢿⣦ ⣼⡇ ⠸⡇   ⣸⡿ ⣺⠅  ⣿⡇   
+                 ⠈⣿⣇⣾⠇⠈⣿⣿⡟   ⠯⢶⣶⠾⠟⠁ ⢿⣦⡶⠄⢹⠇    𓃦ᨒꨄ︎ 🐾
+                  ⠘⢿⠏  ⠈⠛⠁                       
 
-echo -e "\033[0m"
-echo
-echo -e "\033[1;36mIniciando instalação das dependências...\033[0m"
-sleep 2
 
-# Função de barra de progresso animada
+        ░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓████████▓▒░
+        ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░
+        ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░
+        ░▒▓██████▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░
+        ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░
+        ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░  ░▒▓█▓▒░
+        ░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░  ░▒▓█▓▒░
+"
+
+# Função barra de progresso colorida
 progress_bar() {
-    local i=0
-    local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-    while [ $i -le 100 ]; do
-        local idx=$((i % 10))
-        printf "\r\033[1;32m[%s] Instalando... %3d%%\033[0m" "${spin:$idx:1}" "$i"
-        sleep 0.03
-        i=$((i+2))
-    done
-    printf "\r\033[1;32m[✓] Instalação concluída!        \033[0m\n"
+  local task="$1"
+  local cmd="$2"
+  local color="$3"
+  local cols=30
+  local i=0
+  local delay=0.08
+
+  echo -e "${color}${task}...${reset}"
+
+  bash -c "$cmd" &> /dev/null &
+  local pid=$!
+
+  while kill -0 $pid 2> /dev/null; do
+    i=$(( (i+1) % (cols+1) ))
+    local filled=$i
+    local empty=$((cols - filled))
+    local bar="$(printf '%0.s█' $(seq 1 $filled))$(printf '%0.s-' $(seq 1 $empty))"
+    printf "\r[${green}%s${reset}] %3d%%" "$bar" $((i*100/cols))
+    sleep $delay
+  done
+
+  wait $pid
+  local status=$?
+  if [ $status -eq 0 ]; then
+    printf "\r[${green}$(printf '%0.s█' $(seq 1 $cols))${reset}] 100%% ${green}[Sucesso]${reset}\n"
+  else
+    printf "\r[${red}$(printf '%0.s█' $(seq 1 $cols))${reset}] 100%% ${red}[Falha]${reset}\n"
+    exit 1
+  fi
 }
 
-# Função para instalar dependências
-install_dependencies() {
-    # Atualizar repositórios
-    echo -e "\033[1;34m[•] Atualizando repositórios...\033[0m"
-    if command -v apt &> /dev/null; then
-        sudo apt update -y > /dev/null 2>&1
-    elif command -v pkg &> /dev/null; then
-        pkg update -y > /dev/null 2>&1
-    fi
-    progress_bar
+clear
+echo -e "${cyan}$banner${reset}"
+echo -e "${yellow}Iniciando instalação das dependências do Wolf no Termux...${reset}"
 
-    # Instalar Python e pip
-    echo -e "\033[1;34m[•] Instalando Python e pip...\033[0m"
-    if command -v apt &> /dev/null; then
-        sudo apt install -y python3 python3-pip > /dev/null 2>&1
-    elif command -v pkg &> /dev/null; then
-        pkg install -y python > /dev/null 2>&1
-    fi
-    progress_bar
+progress_bar "Atualizando pacotes" "pkg update -y && pkg upgrade -y" "$blue"
+progress_bar "Instalando Python" "pkg install python -y" "$yellow"
+progress_bar "Instalando FFmpeg" "pkg install ffmpeg -y" "$yellow"
+progress_bar "Instalando wget, git e aria2" "pkg install wget git aria2 -y" "$yellow"
+progress_bar "Instalando yt-dlp (pip)" "pip install --upgrade yt-dlp" "$green"
+progress_bar "Instalando requests (pip)" "pip install --upgrade requests" "$green"
 
-    # Atualizar pip
-    echo -e "\033[1;34m[•] Atualizando pip...\033[0m"
-    python3 -m pip install --upgrade pip > /dev/null 2>&1 || python -m pip install --upgrade pip > /dev/null 2>&1
-    progress_bar
+echo -e "${blue}Configurando permissão de armazenamento (termux-setup-storage)...${reset}"
+termux-setup-storage
+echo -e "${green}Permissão de armazenamento configurada. Por favor, conceda permissão se solicitado.${reset}"
 
-    # Instalar bibliotecas Python necessárias
-    echo -e "\033[1;34m[•] Instalando bibliotecas Python...\033[0m"
-    pip install requests yt-dlp spotdl > /dev/null 2>&1
-    progress_bar
-
-    # Instalar aria2
-    echo -e "\033[1;34m[•] Instalando aria2...\033[0m"
-    if command -v apt &> /dev/null; then
-        sudo apt install -y aria2 > /dev/null 2>&1
-    elif command -v pkg &> /dev/null; then
-        pkg install -y aria2 > /dev/null 2>&1
-    fi
-    progress_bar
-}
-
-# Executar instalação
-install_dependencies
-
-# Mostrar monitor de processos
-echo -e "\n\033[1;35mAbrindo monitor de processos (top)...\033[0m"
-sleep 1
-top -b -n 1 | head -n 12
-
-echo -e "\n\033[1;32mTodas as dependências foram instaladas com sucesso!\033[0m"
-echo -e "\033[1;33mExecute o script principal com: python3 wolf-9.0.py\033[0m"
+echo -e "${green}Todas as dependências foram instaladas com sucesso!${reset}"
+echo -e "${cyan}Agora execute: ${yellow}python3 wolf-9.0.py${reset}"
