@@ -95,9 +95,9 @@ progress_bar() {
   local status=$?
 
   if [ $status -eq 0 ]; then
-    printf "\r${color}${task}... [$(printf '%0.s█' $(seq 1 $cols))] 100%% ${green}[✔]${reset}\n"
+    printf "\r${color}${task}... [$(printf '%0.s█' $(seq 1 $cols))] 100%% ${green}sucesso [✔]${reset}\n"
   else
-    printf "\r${color}${task}... [$(printf '%0.s█' $(seq 1 $cols))] 100%% ${red}[✘]${reset}\n"
+    printf "\r${color}${task}... [$(printf '%0.s█' $(seq 1 $cols))] 100%% ${red}falhou [✘]${reset}\n"
     echo -e "${red}Erro no comando: ${cmd}${reset}"
     exit 1
   fi
@@ -113,9 +113,9 @@ main() {
 
   # Atualizar e instalar pacotes
   progress_bar "Atualizando pacotes" "pkg update -y && pkg upgrade -y" "$green"
-  progress_bar "Instalando Python" "pkg install python -y" "$yellow"
-  progress_bar "Instalando FFmpeg" "pkg install ffmpeg -y" "$yellow"
-  progress_bar "Instalando utilitários" "pkg install wget git aria2 -y" "$yellow"
+  progress_bar "Instalando Python" "pkg install python -y" "$green"
+  progress_bar "Instalando FFmpeg" "pkg install ffmpeg -y" "$green"
+  progress_bar "Instalando utilitários" "pkg install wget git aria2 -y" "$green"
   progress_bar "Instalando yt-dlp" "pip install --upgrade yt-dlp" "$green"
   progress_bar "Instalando requests" "pip install --upgrade requests" "$green"
 
