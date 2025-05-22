@@ -35,7 +35,7 @@ Instalação (via Termux)
 
 •chmod +x install.sh
 
-•bash install.sh
+•python install.py
 
 Execução
 
